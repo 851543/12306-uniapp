@@ -1,5 +1,7 @@
 <template>
-  <div class="car">car</div>
+  <view>
+    <text class="car">car</text>
+  </view>
 </template>
 
 <script lang="ts" setup>
