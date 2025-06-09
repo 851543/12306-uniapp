@@ -1,0 +1,77 @@
+{
+	// 组件自动引入规则
+	"easycom": {
+		// 是否开启自动扫描
+		"autoscan": true,
+		// 以正则方式自定义组件匹配规则
+		"custom": {
+			// uni-ui 规则如下配置
+			"^uni-(.*)": "@dcloudio/uni-ui/lib/uni-$1/uni-$1.vue"
+			// 以 xxx 开头的组件，在 components 文件夹中查找引入（需要重启服务器）
+		}
+	},
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "12306"
+			}
+		},
+		{
+			"path": "pages/plane/plane",
+			"style": {
+				"navigationBarTitleText": "飞机票"
+			}
+		},
+		{
+			"path": "pages/car/car",
+			"style": {
+				"navigationBarTitleText": "汽车票"
+			}
+		},
+		{
+			"path": "pages/my/my",
+			"style": {
+				"navigationBarTitleText": "个人中心"
+			}
+		}
+	],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "uni-app",
+		"navigationBarBackgroundColor": "#F8F8F8",
+		"backgroundColor": "#F8F8F8"
+	},
+	"tabBar": {
+		"color": "#999999",
+		"selectedColor": "#1890ff",
+		"backgroundColor": "#ffffff",
+		"borderStyle": "black",
+		"list": [
+			{
+				"text": "火车票",
+				"pagePath": "pages/index/index",
+				"iconPath": "static/images/bar/hcp-0.jpg",
+				"selectedIconPath": "static/images/bar/hcp-1.jpg"
+			},
+			{
+				"text": "飞机票",
+				"pagePath": "pages/plane/plane",
+				"iconPath": "static/images/bar/fjp-0.jpg",
+				"selectedIconPath": "static/images/bar/fjp-1.jpg"
+			},
+			{
+				"text": "汽车票",
+				"pagePath": "pages/car/car",
+				"iconPath": "static/images/bar/qcp-0.jpg",
+				"selectedIconPath": "static/images/bar/qcp-1.jpg"
+			},
+			{
+				"text": "个人中心",
+				"pagePath": "pages/my/my",
+				"iconPath": "static/images/bar/grzx-0.jpg",
+				"selectedIconPath": "static/images/bar/grzx-0.jpg"
+			}
+		]
+	}
+}
