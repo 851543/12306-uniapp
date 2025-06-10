@@ -20,5 +20,5 @@ defineProps<{
 </template>
 
 <style lang="scss">
-@import './styles/AJSwiper.scss';
+@use './styles/AJSwiper.scss';
 </style>
