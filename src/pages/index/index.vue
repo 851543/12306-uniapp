@@ -120,11 +120,11 @@
 
     <view class="footer-menu">
       <view class="menu-item" v-for="footer in trainFooterList" :key="footer.id">
-        <view v-if="footer.topBoolean" class="bubble-img">
+        <view v-if="footer.topImgUrl" class="bubble-img">
           <image :src="footer.topImgUrl" mode="scaleToFill" />
         </view>
         <image class="menu-icon" :src="footer.imgUrl" />
-        <text class="menu-text">{{ footer.name }}</text>
+        <text class="menu-text">{{ footer.title }}</text>
       </view>
     </view>
   </view>

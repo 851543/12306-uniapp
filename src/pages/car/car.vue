@@ -50,7 +50,7 @@
     <view class="footer-menu">
       <view class="menu-item" v-for="footer in carFooterList" :key="footer.id">
         <image class="menu-icon" :src="footer.imgUrl" />
-        <text class="menu-text">{{ footer.name }}</text>
+        <text class="menu-text">{{ footer.title }}</text>
       </view>
     </view>
   </view>

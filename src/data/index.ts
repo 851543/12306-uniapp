@@ -1,4 +1,4 @@
-import type { Banner, Footer } from '@/types/data'
+import type { Banner, Menu } from '@/types/data'
 export const bannerList: Banner[] = [
   {
     id: '1',
@@ -14,84 +14,103 @@ export const bannerList: Banner[] = [
   }
 ]
 
-export const trainFooterList: Footer[] = [
+export const trainFooterList: Menu[] = [
   {
     id: '1',
     imgUrl: '/static/images/icon/hcp/jsqp.jpg',
-    name: '极速抢票',
-    topBoolean: true,
+    title: '极速抢票',
     topImgUrl: '/static/images/icon/hcp/cy.jpg'
   },
   {
     id: '2',
     imgUrl: '/static/images/icon/hcp/zxxz.jpg',
-    name: '在线选座',
-    topBoolean: false
+    title: '在线选座'
   },
   {
     id: '3',
     imgUrl: '/static/images/icon/hcp/qshh.jpg',
-    name: '抢手好货',
-    topBoolean: false
+    title: '抢手好货'
   },
   {
     id: '4',
     imgUrl: '/static/images/icon/hcp/czjd.jpg',
-    name: '超值酒店',
-    topBoolean: false
+    title: '超值酒店'
   }
 ]
 
-export const carFooterList: Footer[] = [
+export const carFooterList: Menu[] = [
   {
     id: '1',
     imgUrl: '/static/images/icon/car/1.jpg',
-    name: '火车票',
-    topBoolean: true
+    title: '火车票'
   },
   {
     id: '2',
     imgUrl: '/static/images/icon/car/2.jpg',
-    name: '机场巴士',
-    topBoolean: false
+    title: '机场巴士'
   },
   {
     id: '3',
     imgUrl: '/static/images/icon/car/3.jpg',
-    name: '景区直达',
-    topBoolean: false
+    title: '景区直达'
   },
   {
     id: '4',
     imgUrl: '/static/images/icon/car/4.jpg',
-    name: '船票',
-    topBoolean: false
+    title: '船票'
   }
 ]
 
-export const myTopList: Footer[] = [
+export const myTopList: Menu[] = [
   {
     id: '1',
     imgUrl: '/static/images/icon/grzx/hcpdd.jpg',
-    name: '火车票',
-    topBoolean: true
+    title: '火车票'
   },
   {
     id: '2',
     imgUrl: '/static/images/icon/grzx/qpdd.jpg',
-    name: '抢票',
-    topBoolean: false
+    title: '抢票'
   },
   {
     id: '3',
     imgUrl: '/static/images/icon/grzx/jpdd.jpg',
-    name: '机票',
-    topBoolean: false
+    title: '机票'
   },
   {
     id: '4',
     imgUrl: '/static/images/icon/grzx/qbdd.jpg',
-    name: '全部',
-    topBoolean: false
+    title: '全部'
+  }
+]
+
+export const myMenuList: Menu[] = [
+  {
+    id: '1',
+    imgUrl: '/static/images/icon/grzx/cxfw.jpg',
+    title: '出行服务',
+    subTitle: '正晚点/时刻表'
+  },
+  {
+    id: '2',
+    imgUrl: '/static/images/icon/grzx/yqhy.jpg',
+    title: '邀请好友',
+    subTitle: '一起来抢票'
+  },
+  {
+    id: '3',
+    imgUrl: '/static/images/icon/grzx/xxzx.jpg',
+    title: '消息中心',
+    subTitle: '在线客服'
+  },
+  {
+    id: '4',
+    imgUrl: '/static/images/icon/grzx/cpyj.jpg',
+    title: '产品意见'
+  },
+  {
+    id: '5',
+    imgUrl: '/static/images/icon/grzx/gd.jpg',
+    title: '更多'
   }
 ]

@@ -17,7 +17,7 @@
     <view class="order-nav card">
       <view class="order-item" v-for="myTop in myTopList" :key="myTop.id">
         <image :src="myTop.imgUrl" class="icon" />
-        <text>{{ myTop.name }}订单</text>
+        <text>{{ myTop.title }}订单</text>
       </view>
     </view>
     <!-- 财富/加速包 -->
@@ -31,60 +31,25 @@
     </view>
     <!-- 菜单列表 -->
     <view class="menu-list card">
-      <view class="menu-item">
-        <view class="menu-left">
-          <image class="menu-logo" src="/static/images/icon/grzx/cxfw.jpg" mode="aspectFill" />
-          <text>出行服务</text>
+      <view v-for="myMenu in myMenuList">
+        <view class="menu-item" :key="myMenu.id">
+          <view class=" menu-left">
+            <image class="menu-logo" :src="myMenu.imgUrl" mode="aspectFill" />
+            <text>{{ myMenu.title }}</text>
+          </view>
+          <view class="menu-right">
+            <text class="right">{{ myMenu.subTitle }}</text>
+            <uni-icons type="arrowright" size="22" color="#bbb" class="menu-arrow" />
+          </view>
         </view>
-        <view class="menu-right">
-          <text class="right">正晚点/时刻表</text>
-          <uni-icons type="arrowright" size="22" color="#bbb" class="menu-arrow" />
-        </view>
-      </view>
-      <view class="divider"></view>
-      <view class="menu-item">
-        <view class="menu-left">
-          <image class="menu-logo" src="/static/images/icon/grzx/cxfw.jpg" mode="aspectFill" />
-          <text>邀请好友</text>
-        </view>
-        <view class="menu-right">
-          <text class="right">一起来抢票</text>
-          <uni-icons type="arrowright" size="22" color="#bbb" class="menu-arrow" />
-        </view>
-      </view>
-      <view class="divider"></view>
-      <view class="menu-item">
-        <view class="menu-left">
-          <image class="menu-logo" src="/static/images/icon/grzx/cxfw.jpg" mode="aspectFill" />
-          <text>消息中心</text>
-        </view>
-        <view class="menu-right">
-          <text class="right">在线客服</text>
-          <uni-icons type="arrowright" size="22" color="#bbb" class="menu-arrow" />
-        </view>
-      </view>
-      <view class="divider"></view>
-      <view class="menu-item">
-        <view class="menu-left">
-          <image class="menu-logo" src="/static/images/icon/grzx/cxfw.jpg" mode="aspectFill" />
-          <text>产品意见</text>
-        </view>
-        <uni-icons type="arrowright" size="22" color="#bbb" class="menu-arrow" />
-      </view>
-      <view class="divider"></view>
-      <view class="menu-item">
-        <view class="menu-left">
-          <image class="menu-logo" src="/static/images/icon/grzx/cxfw.jpg" mode="aspectFill" />
-          <text>更多</text>
-        </view>
-        <uni-icons type="arrowright" size="22" color="#bbb" class="menu-arrow" />
+        <view class="divider"></view>
       </view>
     </view>
   </view>
 </template>
 
 <script lang="ts" setup>
-import { myTopList } from '@/data/index'
+import { myTopList, myMenuList } from '@/data/index'
 import uniIcons from '@dcloudio/uni-ui/lib/uni-icons/uni-icons.vue'
 </script>
 
