@@ -168,7 +168,7 @@ import { carFooterList } from '@/data/index'
     .query-btn-box {
       display: flex;
       justify-content: center;
-      margin-bottom: 18px;
+      margin: 18px;
 
       .query-btn {
         width: 90vw;
@@ -177,7 +177,6 @@ import { carFooterList } from '@/data/index'
         color: #fff;
         font-size: 18px;
         border-radius: 8px;
-        padding: 12px 0;
         font-weight: bold;
       }
     }
@@ -211,8 +210,7 @@ import { carFooterList } from '@/data/index'
   display: flex;
   justify-content: space-around;
   align-items: center;
-  margin: 30rpx 20rpx;
-  padding: 10px;
+  margin: 50rpx 20rpx;
 
   .menu-item {
     position: relative;

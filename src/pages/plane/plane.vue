@@ -168,7 +168,7 @@ const tripType = ref('single')
     .query-btn-box {
       display: flex;
       justify-content: center;
-      margin-bottom: 18px;
+      margin: 18px;
 
       .query-btn {
         width: 90vw;
@@ -177,7 +177,6 @@ const tripType = ref('single')
         color: #fff;
         font-size: 18px;
         border-radius: 8px;
-        padding: 12px 0;
         font-weight: bold;
       }
     }
