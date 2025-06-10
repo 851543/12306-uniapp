@@ -35,6 +35,12 @@
 			"style": {
 				"navigationBarTitleText": "个人中心"
 			}
+		},
+		{
+			"path": "pages/hall/hall",
+			"style": {
+				"navigationBarTitleText": "大厅"
+			}
 		}
 	],
 	"globalStyle": {
