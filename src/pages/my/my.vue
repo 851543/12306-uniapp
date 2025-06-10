@@ -32,7 +32,7 @@
     <!-- 菜单列表 -->
     <view class="menu-list card">
       <view v-for="myMenu in myMenuList">
-        <view class="menu-item" :key="myMenu.id">
+        <navigator :url="getMenuUrl(myMenu.id)" class="menu-item" :key="myMenu.id">
           <view class=" menu-left">
             <image class="menu-logo" :src="myMenu.imgUrl" mode="aspectFill" />
             <text>{{ myMenu.title }}</text>
@@ -41,7 +41,7 @@
             <text class="right">{{ myMenu.subTitle }}</text>
             <uni-icons type="arrowright" size="22" color="#bbb" class="menu-arrow" />
           </view>
-        </view>
+        </navigator>
         <view class="divider"></view>
       </view>
     </view>
@@ -51,6 +51,17 @@
 <script lang="ts" setup>
 import { myTopList, myMenuList } from '@/data/index'
 import uniIcons from '@dcloudio/uni-ui/lib/uni-icons/uni-icons.vue'
+
+const getMenuUrl = (id: string) => {
+  const routeMap: Record<string, string> = {
+    '1': '/pagesMember/travel/travel', // 出行服务
+    '2': '/pagesMember/invite/invite', // 邀请好友
+    '3': '/pagesMember/message/message', // 消息中心
+    '4': '/pagesMember/feedback/feedback', // 产品意见
+    '5': '/pagesMember/more/more' // 更多
+  }
+  return routeMap[id] || ''
+}
 </script>
 
 <style lang="scss">
