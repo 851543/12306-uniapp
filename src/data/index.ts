@@ -114,3 +114,40 @@ export const myMenuList: Menu[] = [
     title: '更多'
   }
 ]
+
+// 城市数据
+export const cityList = [
+  { code: 'BJ', name: '北京' },
+  { code: 'SH', name: '上海' },
+  { code: 'GZ', name: '广州' },
+  { code: 'SZ', name: '深圳' },
+  { code: 'HZ', name: '杭州' },
+  { code: 'NJ', name: '南京' },
+  { code: 'CD', name: '成都' },
+  { code: 'WH', name: '武汉' },
+  { code: 'XA', name: '西安' },
+  { code: 'TJ', name: '天津' },
+  { code: 'CQ', name: '重庆' },
+  { code: 'SY', name: '沈阳' },
+  { code: 'CC', name: '长春' },
+  { code: 'HRB', name: '哈尔滨' },
+  { code: 'JMS', name: '佳木斯' },
+  { code: 'DL', name: '大连' },
+  { code: 'QD', name: '青岛' },
+  { code: 'JN', name: '济南' },
+  { code: 'ZZ', name: '郑州' },
+  { code: 'CS', name: '长沙' },
+  { code: 'NC', name: '南昌' },
+  { code: 'FZ', name: '福州' },
+  { code: 'XM', name: '厦门' },
+  { code: 'NN', name: '南宁' },
+  { code: 'KM', name: '昆明' },
+  { code: 'GY', name: '贵阳' },
+  { code: 'LZ', name: '兰州' },
+  { code: 'XZ', name: '西宁' },
+  { code: 'YIN', name: '银川' },
+  { code: 'WLMQ', name: '乌鲁木齐' }
+]
+
+// 日期相关数据
+export const weekDays = ['周日', '周一', '周二', '周三', '周四', '周五', '周六']

@@ -5,15 +5,15 @@
       <view class="header-left" @tap="handleBack">
         <uni-icons type="arrow-left" size="22" color="#fff" />
       </view>
-      <text class="title">哈尔滨→北京</text>
+      <text class="title">{{fromCity}}→{{toCity}}</text>
       <text class="more">···</text>
     </view>
 
     <!-- 日期选择导航 -->
     <view class="date-nav">
-      <text class="prev-day">前一天</text>
-      <text class="current-date">02月02日周四</text>
-      <text class="next-day">后一天</text>
+      <text class="prev-day" @tap="handlePrevDay">前一天</text>
+      <text class="current-date">{{ displayDate() }}</text>
+      <text class="next-day" @tap="handleNextDay">后一天</text>
     </view>
 
     <!-- 车次列表 -->
@@ -22,24 +22,39 @@
       <view class="train-item" v-for="(train, index) in trainList" :key="index">
         <view class="item-header">
           <view class="station-time">
-            <text class="station">{{ train.departureStation }}</text>
-            <text class="time">{{ train.departureTime }}</text>
+            <text class="station">{{ train.fromStationName }}</text>
+            <text class="time">{{ train.startTime }}</text>
           </view>
           <view class="train-info">
-            <text class="train-number">{{ train.trainNumber }}</text>
-            <text class="duration">{{ train.duration }}</text>
+            <text class="train-number">{{ train.trainNo }}</text>
+            <text class="duration">{{ train.durationDesc }}</text>
           </view>
           <view class="station-time">
-            <text class="station">{{ train.arrivalStation }}</text>
-            <text class="time">{{ train.arrivalTime }}</text>
+            <text class="station">{{ train.toStationName }}</text>
+            <text class="time">{{ train.arriveTime }}</text>
           </view>
           <view class="price-info">
-            <text class="price">¥ {{ train.price }}起</text>
-            <text class="buy-button">{{ train.ticketStatus }}</text>
+            <text class="price">¥ {{ train.seats[0]?.price || '--' }}起</text>
+            <text class="buy-button" :class="{'sold-out': !train.canWebBuy}">{{ train.canWebBuy ? '可预订' : '已售罄' }}</text>
           </view>
         </view>
         <view class="seat-info">
-          <view class="seat-item" v-for="(seat, sIndex) in train.seatAvailability" :key="sIndex">{{ seat }}</view>
+          <view class="seat-item" v-for="(seat, sIndex) in train.seats" :key="sIndex">
+            <view class="seat-type">{{ seat.seatName }}</view>
+            <view class="seat-detail">
+              <text class="seat-price">¥{{ seat.price }}</text>
+              <text class="seat-count" :class="{'sold-out': seat.ticketLeft === 0}">
+                {{ seat.ticketLeft > 0 ? seat.ticketLeft + '张' : '无票' }}
+              </text>
+              <view class="seat-discount" v-if="seat.discountRate < 1">
+                {{ (seat.discountRate * 10).toFixed(1) }}折
+              </view>
+            </view>
+          </view>
+        </view>
+        <view class="train-tags" v-if="train.isFuXingTrain || train.isHouBuTrain">
+          <text class="tag" v-if="train.isFuXingTrain">复兴号</text>
+          <text class="tag" v-if="train.isHouBuTrain">候补</text>
         </view>
       </view>
     </view>
@@ -55,26 +70,83 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
+import DataService from '@/service/dataApi';
+import { onLoad } from '@dcloudio/uni-app';
+import type { TrainTicket } from '@/types/data'
+import { formatDate } from '@/utils/index'
+
+// 页面参数
+const query = defineProps<{
+  fromCity?: string
+  toCity?: string
+  date?: string
+}>()
+
+// 当前日期
+const currentDate = ref(query.date ? new Date(query.date) : new Date())
 
 // 模拟车次数据
-const trainList = ref([
-  {
-    departureStation: '哈尔滨西',
-    departureTime: '06:57',
-    trainNumber: 'D28',
-    duration: '7小时54分',
-    arrivalStation: '北京',
-    arrivalTime: '14:51',
-    price: '306.5',
-    ticketStatus: '可抢票',
-    seatAvailability: ['二等座:100张(抢)', '二等座:0张(抢)', '二等座:0张(抢)']
-  }
-])
+const trainList = ref<TrainTicket[]>([])
 
-const handleBack = ()=>{
+const getCarTicketList = async () => {
+  const res = await DataService.getCarTicketList({
+    "searchDataType": 1,
+    "searchType": 0,
+    "searchTrainConditions": [
+      {
+        "departStation": query.fromCity,
+        "arriveStation": query.toCity,
+        "departDate": formatDate(currentDate.value, 'YYYY-MM-DD')
+      }
+    ]
+  })
+  if (res.resultCode === 1) {
+    trainList.value = res.trainStationInfoList
+  }
+}
+
+const handleBack = () => {
   // 返回上一页
   uni.navigateBack()
+}
+
+// 切换日期
+const handlePrevDay = () => {
+  const today = new Date()
+  today.setHours(0, 0, 0, 0)
+  const prevDate = new Date(currentDate.value.getTime() - 24 * 60 * 60 * 1000)
+  prevDate.setHours(0, 0, 0, 0)
+  
+  if (prevDate < today) {
+    uni.showToast({
+      title: '不能选择今天之前的日期',
+      icon: 'none'
+    })
+    return
+  }
+  currentDate.value = prevDate
+}
+const handleNextDay = () => {
+  currentDate.value = new Date(currentDate.value.getTime() + 24 * 60 * 60 * 1000)
+}
+
+// 监听日期变化，刷新车次
+watch(currentDate, () => {
+  getCarTicketList()
+})
+
+onLoad(() => {
+  getCarTicketList()
+})
+
+// 格式化日期显示
+const weekDays = ['周日','周一','周二','周三','周四','周五','周六']
+const displayDate = () => {
+  const m = currentDate.value.getMonth() + 1
+  const d = currentDate.value.getDate()
+  const w = weekDays[currentDate.value.getDay()]
+  return `${m.toString().padStart(2, '0')}月${d.toString().padStart(2, '0')}日${w}`
 }
 </script>
 
@@ -247,23 +319,84 @@ const handleBack = ()=>{
         border-radius: 8rpx;
         font-size: 24rpx;
         margin-top: 10rpx;
+
+        &.sold-out {
+          background-color: #999;
+        }
       }
     }
   }
 
   .seat-info {
     display: flex;
-    justify-content: flex-start;
-    /* 左对齐 */
+    justify-content: space-between;
     flex-wrap: wrap;
-    /* 允许换行 */
     font-size: 24rpx;
     color: #666;
+    margin-top: 20rpx;
+    border-top: 1rpx solid #eee;
+    padding-top: 20rpx;
 
     .seat-item {
-      padding: 5rpx 10rpx;
-      margin-right: 20rpx;
-      /* 增加间距 */
+      width: 33.33%;
+      padding: 10rpx;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      .seat-type {
+        font-size: 26rpx;
+        color: #333;
+        margin-bottom: 8rpx;
+      }
+
+      .seat-detail {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .seat-price {
+          color: #ff5722;
+          font-weight: bold;
+          font-size: 28rpx;
+          margin-bottom: 10rpx;
+        }
+
+        .seat-count {
+          font-size: 24rpx;
+          color: #4CAF50;
+          margin-bottom: 8rpx;
+          &.sold-out {
+            color: #999;
+          }
+        }
+
+        .seat-discount {
+          font-size: 22rpx;
+          color: #ff5722;
+          background: #fff3e0;
+          padding: 2rpx 8rpx;
+          border-radius: 4rpx;
+          margin-top: 6rpx;
+        }
+      }
+    }
+  }
+
+  .train-tags {
+    display: flex;
+    gap: 10rpx;
+    margin-top: 20rpx;
+    padding-top: 20rpx;
+    border-top: 1rpx solid #eee;
+
+    .tag {
+      font-size: 22rpx;
+      padding: 4rpx 12rpx;
+      border-radius: 4rpx;
+      background-color: #e8f5e9;
+      color: #4CAF50;
     }
   }
 }

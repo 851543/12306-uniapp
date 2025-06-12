@@ -21,25 +21,25 @@
       <view class="train-content">
         <!-- 城市选择 -->
         <view class="city-select-box">
-          <view class="city-item">
+          <view class="city-item" @tap="showCityPicker('from')">
             <text class="label">出发城市</text>
-            <text class="city-name">哈尔滨</text>
+            <text class="city-name">{{ fromCity }}</text>
           </view>
-          <view class="exchange-btn">
+          <view class="exchange-btn" @tap="exchangeCity">
             <image src="/static/images/icon/hcp/xz.jpg" mode="scaleToFill" />
           </view>
-          <view class="city-item">
+          <view class="city-item" @tap="showCityPicker('to')">
             <text class="label">到达城市</text>
-            <text class="city-name">北京</text>
+            <text class="city-name">{{ toCity }}</text>
           </view>
         </view>
 
         <!-- 日期选择 -->
-        <view class="date-select-box">
+        <view class="date-select-box" @tap="showDatePicker">
           <text class="label">出发日期</text>
-          <text class="date-text">2月2日</text>
-          <text class="weekday-text">周四</text>
-          <uni-icons size="16" color="#8f8f94"></uni-icons>
+          <text class="date-text">{{ selectedDate.month }}月{{ selectedDate.day }}日</text>
+          <text class="weekday-text">{{ selectedDate.weekday }}</text>
+          <uni-icons type="calendar" size="16" color="#8f8f94"></uni-icons>
         </view>
 
         <!-- 高铁/动车 & 学生票 -->
@@ -77,19 +77,75 @@
         <text class="menu-text">{{ footer.title }}</text>
       </view>
     </view>
+
+    <!-- 城市选择器 -->
+    <AJCityPicker v-model:visible="cityPickerVisible" :type="currentCityType" @select="handleCitySelect" />
+
+    <!-- 日期选择器 -->
+    <AJDatePicker v-model:visible="datePickerVisible" :selected-date="selectedDate.date" @select="handleDateSelect" />
   </view>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
 import AJSwiper from '@/components/AJSwiper.vue'
-import { bannerList, trainFooterList } from '@/data/index'
+import { bannerList, trainFooterList, weekDays } from '@/data/index'
+import { getCurrentDate } from '@/utils/date'
+import { formatDate } from '@/utils/index'
 
 const activeTab = ref('train')
 
+// 城市选择相关数据
+const fromCity = ref('哈尔滨')
+const toCity = ref('北京')
+const cityPickerVisible = ref(false)
+const currentCityType = ref<'from' | 'to'>('from')
+
+// 日期选择相关数据
+const selectedDate = ref(getCurrentDate())
+const datePickerVisible = ref(false)
+
+// 显示城市选择器
+const showCityPicker = (type: 'from' | 'to') => {
+  currentCityType.value = type
+  cityPickerVisible.value = true
+}
+
+// 处理城市选择
+const handleCitySelect = (city: { code: string; name: string }) => {
+  if (currentCityType.value === 'from') {
+    fromCity.value = city.name
+  } else {
+    toCity.value = city.name
+  }
+}
+
+// 交换城市
+const exchangeCity = () => {
+  const temp = fromCity.value
+  fromCity.value = toCity.value
+  toCity.value = temp
+}
+
+// 显示日期选择器
+const showDatePicker = () => {
+  datePickerVisible.value = true
+}
+
+// 处理日期选择
+const handleDateSelect = (date: Date) => {
+  selectedDate.value = {
+    date,
+    month: date.getMonth() + 1,
+    day: date.getDate(),
+    weekday: weekDays[date.getDay()]
+  }
+
+}
+
 const handleQuery = () => {
   uni.navigateTo({
-    url: '/pages/hall/hall'
+    url: `/pages/hall/hall?fromCity=${fromCity.value}&toCity=${toCity.value}&date=${formatDate(selectedDate.value.date, 'YYYY-MM-DD')}`
   })
 }
 </script>
